@@ -4,6 +4,8 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import FloatingShapes from "@/components/floating-shapes";
 import Header from "@/components/header";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const inter=Inter({subsets:["latin"]});
 
@@ -24,12 +26,16 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
+             <ClerkProvider>
+            <ConvexClientProvider>
            
             <Header/>
             <main className="bg-slate-900 min-h-[2000px] text-white overflow-x-hidden">
                <FloatingShapes/>
                <Toaster richColors/>
                {children}</main>
+               </ConvexClientProvider>
+               </ClerkProvider>
           </ThemeProvider>
       </body>
     </html>
