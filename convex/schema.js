@@ -1,5 +1,6 @@
 import {defineSchema, defineTable} from "convex/server";
 import { v } from "convex/values";
+import { getCurrentUser } from "./users";
 
 export default defineSchema({
  users: defineTable({
@@ -22,8 +23,35 @@ export default defineSchema({
 ,
 
 
+ projects:defineTable({
+    title:v.string(),
+    userId:v.id("users"),
+    canvasState:v.any(),
+    width:v.number(),
+    height:v.number(),
+    originalImageUrl:v.optional(v.string()),
+    currentImageUrl:v.optional(v.string()),
+    thumbnailUrl:v.optional(v.string()),
+    activeTransformations:v.optional(v.string()),
+    backgroundRemoved:v.optional(v.boolean()),
+    folderId:v.optional(v.id("folders")),
+    createdAt:v.number(),
+    updatedAt:v.number(),
 
-})
+}).index("by_user",["userId"])
+.index("by_user_updated",["userId","updatedAt"])
+.index("by_folder",["folderId"]),
+
+  folders:defineTable({
+      name:v.string(),
+      userId:v.id("users"),
+      createdAt:v.number(),
+
+  }).index("by_user",["userId"]),
+
+
+
+});
 
 
 
